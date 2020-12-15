@@ -4,6 +4,7 @@ import 'package:github_repos_demo/repos_list/bloc/repos_cubit.dart';
 import 'package:github_repos_demo/repos_list/repos_list_view.dart';
 
 class ReposListScreen extends StatelessWidget {
+  ReposListScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

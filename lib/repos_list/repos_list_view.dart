@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:github_repos_demo/model/github_repo.dart';
+import 'package:github_repos_demo/db.dart';
 import 'package:github_repos_demo/repos_list/bloc/repos_state.dart';
 
 import 'bloc/repos_cubit.dart';
 
 class ReposListView extends StatelessWidget {
-  final TextEditingController _userNameController = TextEditingController(text: "AnnaBersh");
+  TextEditingController _userNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +21,14 @@ class ReposListView extends StatelessWidget {
               builder: (context, state) {
                 switch (state.runtimeType) {
                   case ReposInitialState:
+                    _userNameController.text = (state as ReposInitialState).userName;
                     return _buildInitialState(context);
                     break;
                   case ReposLoadingState:
                     return _buildLoadingState();
                     break;
                   case ReposSuccessState:
+                    _userNameController.text = (state as ReposSuccessState).userName;
                     return _buildList(context, (state as ReposSuccessState).repos);
                     break;
                   case ReposErrorState:
@@ -68,7 +70,7 @@ class ReposListView extends StatelessWidget {
     ];
   }
 
-  Widget _buildList(BuildContext context, List<GitHubRepo> repos) {
+  Widget _buildList(BuildContext context, List<Repo> repos) {
     List<Widget> widgets = _buildSearchForm(context);
     widgets.add(new Expanded(
       child: ListView.builder(
